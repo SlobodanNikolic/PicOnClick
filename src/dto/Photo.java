@@ -10,7 +10,22 @@ public class Photo extends BaseObject{
 	protected int priceHD;
 	protected int priceFullHD;
 	protected int price4K;
+	protected int res;
+	protected int rating;
+	protected int ownerId;
+	protected String name;
+	protected String description;
+	protected String place;
+	protected String path;
+	protected boolean approved;
 	
+	
+	public boolean isApproved() {
+		return approved;
+	}
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
 	public int getPriceHD() {
 		return priceHD;
 	}
@@ -29,14 +44,6 @@ public class Photo extends BaseObject{
 	public void setPrice4K(int price4k) {
 		price4K = price4k;
 	}
-
-	protected int res;
-	protected int rating;
-	protected int ownerId;
-	protected String name;
-	protected String description;
-	protected String place;
-	protected String path;
 	
 	public String getPlace() {
 		return place;
@@ -102,7 +109,7 @@ public class Photo extends BaseObject{
 	}
 	
 	public Photo(int id, Date date, int numOfSales, int priceHD, int priceFullHD, int price4K, int res, int rating, int ownerId, String name,
-			String description, String place, String path) {
+			String description, String place, String path, boolean approved) {
 		
 		super();
 		this.id = id;
@@ -118,6 +125,7 @@ public class Photo extends BaseObject{
 		this.description = description;
 		this.place = place;
 		this.path = path;
+		this.approved = approved;
 	}
 	
 	public Photo() {

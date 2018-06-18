@@ -42,7 +42,7 @@ public class PhotoAccess
 				photoObj.setDate(rs.getDate("date"));
 				photoObj.setOwnerId(rs.getInt("ownerId"));
 				photoObj.setPath(rs.getString("path"));
-
+				photoObj.setApproved(rs.getBoolean("approved"));
 				photos.add(photoObj);
 			}
 			
@@ -55,8 +55,8 @@ public class PhotoAccess
 	
 	public boolean addPhoto(Connection con, Photo photo, User user) throws SQLException{
 		
-		PreparedStatement stmt = con.prepareStatement("INSERT INTO photos(date, numOfSales, priceHD, priceFullHD, price4K, res, description, rating, place, ownerId, name, path)"
-				+ "VALUES(?, ?, ?, ? ?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement stmt = con.prepareStatement("INSERT INTO photos(date, numOfSales, priceHD, priceFullHD, price4K, res, description, rating, place, ownerId, name, path, approved)"
+				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
 		stmt.setDate(1, photo.getDate());
 		stmt.setInt(2, photo.getNumOfSales());
@@ -70,6 +70,7 @@ public class PhotoAccess
 		stmt.setInt(10, photo.getOwnerId());
 		stmt.setString(11, photo.getName());
 		stmt.setString(12, photo.getPath());
+		stmt.setBoolean(13, photo.isApproved());
 		
 		System.out.println(stmt.toString());
 		if(stmt.executeUpdate() > 0) {

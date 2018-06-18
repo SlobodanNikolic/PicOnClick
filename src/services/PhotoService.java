@@ -127,7 +127,7 @@ public class PhotoService
 		Date d = new Date();
 		java.sql.Date date = new java.sql.Date(d.getTime());
 		
-		Photo photoObj = new Photo(0, date, 0, priceHD, priceFullHD, price4K, 2, 0, user.getId(), fileName, description, location, path);
+		Photo photoObj = new Photo(0, date, 0, priceHD, priceFullHD, price4K, 2, 0, user.getId(), fileName, description, location, path, false);
 		BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
 		addPhoto(photoAndUser);
 		
