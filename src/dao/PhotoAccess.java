@@ -69,7 +69,6 @@ public class PhotoAccess
 		
 		System.out.println(stmt.toString());
 		if(stmt.executeUpdate() > 0) {
-			sendPhotoByEmail(photo, user);
 			return true;
 		}
 		else return false;

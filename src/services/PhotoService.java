@@ -58,10 +58,7 @@ public class PhotoService
 		return photoString;
 	}
 	
-	@POST
-	@Path("/photo")
-    @Produces("text/json")
-    @Consumes("application/json")
+	
     public boolean addPhoto(BaseObject[] photoAndUser){
 		
 		Photo photo = (Photo) photoAndUser[0];
@@ -87,7 +84,7 @@ public class PhotoService
 	public String uploadFile(MultipartFormDataInput input, @PathParam("name") String name, 
 			@HeaderParam("priceHD") int priceHD, @HeaderParam("priceFullHD") int priceFullHD,
 			@HeaderParam("price4K") int price4K, @HeaderParam("description") String description,
-			@HeaderParam("location") String location) {
+			@HeaderParam("location") String location, @HeaderParam("tags") String tags) {
 
 		String fileName = "";
 		String path ="";
@@ -172,8 +169,9 @@ public class PhotoService
 	private void writeFile(byte[] content, String filename) throws IOException {
 
 		File file = new File(filename);
-
+		
 		if (!file.exists()) {
+			file.getParentFile().mkdirs();
 			file.createNewFile();
 		}
 
