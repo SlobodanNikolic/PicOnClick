@@ -3,6 +3,7 @@ package services;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,10 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-import org.jboss.resteasy.util.Base64.InputStream;
 import com.google.gson.Gson;
 
+import dao.Access;
+import dao.AccessManager;
 import dao.PhotoManager;
 import dto.BaseObject;
 import dto.Photo;
@@ -78,11 +80,18 @@ public class PhotoService
 	
 	
 	@POST
-	@Path("/photo/upload")
+	@Path("/photo/user/{name}/upload")
 	@Consumes("multipart/form-data")
-	public String uploadFile(MultipartFormDataInput input) {
+	public String uploadFile(MultipartFormDataInput input, @PathParam("name") String name) {
 
 		String fileName = "";
+		try {
+			User user = new AccessManager().getUserByName(name);
+			
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		List<InputPart> inputParts = uploadForm.get("uploadedFile");
