@@ -1,6 +1,6 @@
 package dto;
 
-public class User {
+public class User extends BaseObject{
 	
 	protected int id;
 	protected String name;

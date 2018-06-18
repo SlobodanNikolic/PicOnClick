@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
  
 import dto.User;
  
@@ -78,7 +82,7 @@ public class Access
 		User foundUser = getUserByName(con, user.getName());
 		
 		if(foundUser == null) {
-			PreparedStatement stmt = con.prepareStatement("INSERT INTO users(name, password, email, state, weekly, daily, blocked, seller)"
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO users(name, password, email, state, weekly, daily, blocked, seller, activated)"
 					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			stmt.setString(1, user.getName());
 			stmt.setString(2, user.getPassword());
@@ -92,6 +96,7 @@ public class Access
 			
 			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() > 0) {
+				sendActivationEmail(user);
 				return true;
 			}
 			else return false;
@@ -117,5 +122,58 @@ public class Access
 		else return false;
 		
 	
+	}
+	
+	public void sendActivationEmail(User user) {
+			
+			final String username = "cobibitza@gmail.com";
+			final String password = "originalrap";
+
+			Properties props = new Properties();
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+
+			Session session = Session.getInstance(props,
+			  new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(username, password);
+				}
+			  });
+
+			try {
+
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress("cobibitza@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(user.getEmail()));
+		         message.setSubject("Pic On Click Activation");
+		
+		         // Now set the actual message
+		         message.setText("Hi " + user.getName() + ", thanks for registering on Pic On Click! Just one more step, and you are all done."
+		         		+ "To complete the activation, please click this link: http://localhost:8080/PicOnClick/rest/userService/user/activate/" + user.getName());
+
+				Transport.send(message);
+
+				System.out.println("Done");
+
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+	      
+	      
+	}
+
+	public boolean login(Connection con, User user) throws SQLException {
+
+		User foundUser = getUserByName(con, user.getName());
+		
+		if(foundUser.getPassword().compareTo(user.getPassword())==0 && foundUser.isActivated()) {
+			//login successful
+			return true;
+		}
+		
+		return false;
 	}
 }

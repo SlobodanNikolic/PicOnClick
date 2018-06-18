@@ -74,7 +74,7 @@ public class UserService
     	return value;
     }
 	
-	@POST
+	@GET
 	@Path("/user/activate/{name}")
     @Produces("text/json")
     public boolean activateUser(@PathParam("name") String name){
@@ -82,6 +82,24 @@ public class UserService
     	boolean value = false;
 		try {
 			value = new AccessManager().activateUser(name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
+	
+	@POST
+	@Path("/login")
+    @Produces("text/json")
+    @Consumes("application/json")
+    public boolean login(User user){
+		
+		System.out.println(user.getName());
+		
+    	boolean value = false;
+		try {
+			value = new AccessManager().login(user);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
