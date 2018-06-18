@@ -7,7 +7,29 @@ public class Photo extends BaseObject{
 	protected int id;
 	protected Date date;
 	protected int numOfSales;
-	protected int price;
+	protected int priceHD;
+	protected int priceFullHD;
+	protected int price4K;
+	
+	public int getPriceHD() {
+		return priceHD;
+	}
+	public void setPriceHD(int priceHD) {
+		this.priceHD = priceHD;
+	}
+	public int getPriceFullHD() {
+		return priceFullHD;
+	}
+	public void setPriceFullHD(int priceFullHD) {
+		this.priceFullHD = priceFullHD;
+	}
+	public int getPrice4K() {
+		return price4K;
+	}
+	public void setPrice4K(int price4k) {
+		price4K = price4k;
+	}
+
 	protected int res;
 	protected int rating;
 	protected int ownerId;
@@ -40,12 +62,7 @@ public class Photo extends BaseObject{
 	public void setNumOfSales(int numOfSales) {
 		this.numOfSales = numOfSales;
 	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
+	
 	public int getRes() {
 		return res;
 	}
@@ -84,13 +101,16 @@ public class Photo extends BaseObject{
 		this.path = path;
 	}
 	
-	public Photo(int id, Date date, int numOfSales, int price, int res, int rating, int ownerId, String name,
+	public Photo(int id, Date date, int numOfSales, int priceHD, int priceFullHD, int price4K, int res, int rating, int ownerId, String name,
 			String description, String place, String path) {
+		
 		super();
 		this.id = id;
 		this.date = date;
 		this.numOfSales = numOfSales;
-		this.price = price;
+		this.priceHD = priceHD;
+		this.priceFullHD = priceFullHD;
+		this.price4K = price4K;
 		this.res = res;
 		this.rating = rating;
 		this.ownerId = ownerId;

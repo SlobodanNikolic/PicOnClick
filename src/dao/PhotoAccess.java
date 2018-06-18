@@ -32,7 +32,9 @@ public class PhotoAccess
 				Photo photoObj = new Photo();
 				photoObj.setId(rs.getInt("id"));
 				photoObj.setNumOfSales(rs.getInt("numOfSales"));
-				photoObj.setPrice(rs.getInt("price"));
+				photoObj.setPriceHD(rs.getInt("priceHD"));
+				photoObj.setPriceFullHD(rs.getInt("priceFullHD"));
+				photoObj.setPrice4K(rs.getInt("price4K"));
 				photoObj.setRes(rs.getInt("res"));
 				photoObj.setDescription(rs.getString("description"));
 				photoObj.setRating(rs.getInt("rating"));
@@ -53,19 +55,21 @@ public class PhotoAccess
 	
 	public boolean addPhoto(Connection con, Photo photo, User user) throws SQLException{
 		
-		PreparedStatement stmt = con.prepareStatement("INSERT INTO photos(date, numOfSales, price, res, description, rating, place, ownerId, name, path)"
-				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement stmt = con.prepareStatement("INSERT INTO photos(date, numOfSales, priceHD, priceFullHD, price4K, res, description, rating, place, ownerId, name, path)"
+				+ "VALUES(?, ?, ?, ? ?, ?, ?, ?, ?, ?, ?, ?)");
 		
 		stmt.setDate(1, photo.getDate());
 		stmt.setInt(2, photo.getNumOfSales());
-		stmt.setInt(3, photo.getPrice());
-		stmt.setInt(4, photo.getRes());
-		stmt.setString(5, photo.getDescription());
-		stmt.setInt(6, photo.getRating());
-		stmt.setString(7, photo.getPlace());
-		stmt.setInt(8, photo.getOwnerId());
-		stmt.setString(9, photo.getName());
-		stmt.setString(10, photo.getPath());
+		stmt.setInt(3, photo.getPriceHD());
+		stmt.setInt(4, photo.getPriceFullHD());
+		stmt.setInt(5, photo.getPrice4K());
+		stmt.setInt(6, photo.getRes());
+		stmt.setString(7, photo.getDescription());
+		stmt.setInt(8, photo.getRating());
+		stmt.setString(9, photo.getPlace());
+		stmt.setInt(10, photo.getOwnerId());
+		stmt.setString(11, photo.getName());
+		stmt.setString(12, photo.getPath());
 		
 		System.out.println(stmt.toString());
 		if(stmt.executeUpdate() > 0) {

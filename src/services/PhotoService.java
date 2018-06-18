@@ -127,23 +127,10 @@ public class PhotoService
 		Date d = new Date();
 		java.sql.Date date = new java.sql.Date(d.getTime());
 		
-		if(priceHD != 0) {
-			Photo photoObj = new Photo(0, date, 0, priceHD, 0, 0, user.getId(), fileName, description, location, path);
-			BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
-			addPhoto(photoAndUser);
-		}
+		Photo photoObj = new Photo(0, date, 0, priceHD, priceFullHD, price4K, 2, 0, user.getId(), fileName, description, location, path);
+		BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
+		addPhoto(photoAndUser);
 		
-		if(priceFullHD != 0) {
-			Photo photoObj = new Photo(0, date, 0, priceFullHD, 1, 0, user.getId(), fileName, description, location, path);
-			BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
-			addPhoto(photoAndUser);
-		}
-		
-		if(price4K != 0) {
-			Photo photoObj = new Photo(0, date, 0, price4K, 2, 0, user.getId(), fileName, description, location, path);
-			BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
-			addPhoto(photoAndUser);
-		}
 		
 		return "OK";
 
