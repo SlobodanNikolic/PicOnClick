@@ -5,12 +5,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -82,11 +84,16 @@ public class PhotoService
 	@POST
 	@Path("/photo/user/{name}/upload")
 	@Consumes("multipart/form-data")
-	public String uploadFile(MultipartFormDataInput input, @PathParam("name") String name) {
+	public String uploadFile(MultipartFormDataInput input, @PathParam("name") String name, 
+			@HeaderParam("priceHD") int priceHD, @HeaderParam("priceFullHD") int priceFullHD,
+			@HeaderParam("price4K") int price4K, @HeaderParam("description") String description,
+			@HeaderParam("location") String location) {
 
 		String fileName = "";
+		String path ="";
+		User user = new User();
 		try {
-			User user = new AccessManager().getUserByName(name);
+			user = new AccessManager().getUserByName(name);
 			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -108,9 +115,9 @@ public class PhotoService
 			byte [] bytes = IOUtils.toByteArray(inputStream);
 				
 			//constructs upload file path
-			fileName = UPLOADED_FILE_PATH + fileName;
+			path = UPLOADED_FILE_PATH + "/" + user.getName() + "/" + fileName;
 				
-			writeFile(bytes,fileName);
+			writeFile(bytes, path);
 				
 			System.out.println("Done");
 
@@ -119,7 +126,28 @@ public class PhotoService
 		  }
 
 		}
-
+		
+		Date d = new Date();
+		java.sql.Date date = new java.sql.Date(d.getTime());
+		
+		if(priceHD != 0) {
+			Photo photoObj = new Photo(0, date, 0, priceHD, 0, 0, user.getId(), fileName, description, location, path);
+			BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
+			addPhoto(photoAndUser);
+		}
+		
+		if(priceFullHD != 0) {
+			Photo photoObj = new Photo(0, date, 0, priceFullHD, 1, 0, user.getId(), fileName, description, location, path);
+			BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
+			addPhoto(photoAndUser);
+		}
+		
+		if(price4K != 0) {
+			Photo photoObj = new Photo(0, date, 0, price4K, 2, 0, user.getId(), fileName, description, location, path);
+			BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
+			addPhoto(photoAndUser);
+		}
+		
 		return "OK";
 
 	}
