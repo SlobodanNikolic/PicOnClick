@@ -12,8 +12,44 @@ public class User extends BaseObject{
 	protected boolean blocked;
 	protected boolean seller;
 	protected boolean activated;
+	protected boolean opRequested;
+	protected boolean operator;
+	protected boolean admin;
+	protected boolean pending;
+
 	
-	
+	public boolean isOpRequested() {
+		return opRequested;
+	}
+
+	public void setOpRequested(boolean opRequested) {
+		this.opRequested = opRequested;
+	}
+
+	public boolean isOperator() {
+		return operator;
+	}
+
+	public void setOperator(boolean operator) {
+		this.operator = operator;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
+	public boolean isPending() {
+		return pending;
+	}
+
+	public void setPending(boolean pending) {
+		this.pending = pending;
+	}
+
 	public boolean isActivated() {
 		return activated;
 	}
@@ -22,8 +58,11 @@ public class User extends BaseObject{
 		this.activated = activated;
 	}
 
+	
+	
 	public User(int id, String name, String password, String email, String state, int weekly, int daily,
-			boolean blocked, boolean seller, boolean activated) {
+			boolean blocked, boolean seller, boolean activated, boolean opRequested, boolean operator, boolean admin,
+			boolean pending) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -35,8 +74,12 @@ public class User extends BaseObject{
 		this.blocked = blocked;
 		this.seller = seller;
 		this.activated = activated;
+		this.opRequested = opRequested;
+		this.operator = operator;
+		this.admin = admin;
+		this.pending = pending;
 	}
-	
+
 	public User() {
 		
 	}

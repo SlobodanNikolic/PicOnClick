@@ -37,7 +37,11 @@ public class Access
 				userObj.setSeller(rs.getBoolean("seller"));
 				userObj.setState(rs.getString("state"));
 				userObj.setActivated(rs.getBoolean("activated"));
-
+				userObj.setOpRequested(rs.getBoolean("opRequested"));
+				userObj.setOperator(rs.getBoolean("operator"));
+				userObj.setAdmin(rs.getBoolean("admin"));
+				userObj.setPending(rs.getBoolean("pending"));
+				
 				userList.add(userObj);
 			}
 		} catch (SQLException e){
@@ -71,6 +75,10 @@ public class Access
 				userObj.setSeller(rs.getBoolean("seller"));
 				userObj.setState(rs.getString("state"));
 				userObj.setActivated(rs.getBoolean("activated"));
+				userObj.setOpRequested(rs.getBoolean("opRequested"));
+				userObj.setOperator(rs.getBoolean("operator"));
+				userObj.setAdmin(rs.getBoolean("admin"));
+				userObj.setPending(rs.getBoolean("pending"));
 				
 				return userObj;
 			}
@@ -87,8 +95,9 @@ public class Access
 		User foundUser = getUserByName(con, user.getName());
 		
 		if(foundUser == null) {
-			PreparedStatement stmt = con.prepareStatement("INSERT INTO users(name, password, email, state, weekly, daily, blocked, seller, activated)"
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO users(name, password, email, state, weekly, daily, blocked, seller, activated, opRequested,"
+					+ "operator, admin, pending)"
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, user.getName());
 			stmt.setString(2, user.getPassword());
 			stmt.setString(3, user.getEmail());
@@ -98,7 +107,11 @@ public class Access
 			stmt.setBoolean(7, user.isBlocked());
 			stmt.setBoolean(8, user.isSeller());
 			stmt.setBoolean(9, user.isActivated());
-			
+			stmt.setBoolean(10, user.isOpRequested());
+			stmt.setBoolean(11, user.isOperator());
+			stmt.setBoolean(12, user.isAdmin());
+			stmt.setBoolean(13, user.isPending());
+
 			
 			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() > 0) {
@@ -178,15 +191,15 @@ public class Access
 	      
 	}
 
-	public boolean login(Connection con, User user) throws SQLException {
+	public User login(Connection con, User user) throws SQLException {
 
 		User foundUser = getUserByName(con, user.getName());
 		
 		if(foundUser.getPassword().compareTo(user.getPassword())==0 && foundUser.isActivated()) {
 			//login successful
-			return true;
+			return user;
 		}
 		
-		return false;
+		return null;
 	}
 }

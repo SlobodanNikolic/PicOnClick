@@ -93,11 +93,11 @@ public class UserService
 	@Path("/login")
     @Produces("text/json")
     @Consumes("application/json")
-    public boolean login(User user){
+    public User login(User user){
 		
 		System.out.println(user.getName());
 		
-    	boolean value = false;
+    	User value = null;
 		try {
 			value = new AccessManager().login(user);
 		} catch (Exception e) {

@@ -42,7 +42,7 @@ public class AccessManager
 		return access.activateUser(con, name);
 	}
 
-	public boolean login(User user) throws Exception {
+	public User login(User user) throws Exception {
 		// TODO Auto-generated method stub
 		Database db = new Database();
 		Connection con = db.getConnection();
