@@ -5,6 +5,7 @@ import dto.Photo;
 import dto.User;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class PhotoManager
 {
@@ -47,6 +48,15 @@ public class PhotoManager
 		Connection con = db.getConnection();
 		PhotoAccess access = new PhotoAccess();
 		return access.updatePhoto(con, photo);
+	}
+
+	public ArrayList<Photo> getUnapproved() throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		PhotoAccess access = new PhotoAccess();
+		return access.getUnapproved(con);
+		
 	}
 	
 	

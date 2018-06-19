@@ -289,14 +289,47 @@ public class PhotoService
 	{
 		PhotoManager m = new PhotoManager();
 		Photo photo = m.getPhotoById(id);
-		int currRating = photo.getRating();
-		int timesRated = photo.getTimesRated();
-		timesRated++;
-		int newRating = (currRating+rating)/timesRated;
-		photo.setRating(newRating);
-		photo.setTimesRated(timesRated);
-		return m.updatePhoto(photo);
+		if(photo!=null) {
+			int currRating = photo.getRating();
+			int timesRated = photo.getTimesRated();
+			timesRated++;
+			int newRating = (currRating+rating)/timesRated;
+			photo.setRating(newRating);
+			photo.setTimesRated(timesRated);
+			return m.updatePhoto(photo);
+		}
+		else return false;
 	}
 	
+	@GET
+	@Path("/photo/approve/id/{id}")
+	@Produces("application/json")
+	public boolean approvePhoto(@PathParam("id") int id) throws Exception
+	{
+		PhotoManager m = new PhotoManager();
+		Photo photo = m.getPhotoById(id);
+		if(photo!=null) {
+			photo.setApproved(true);
+			return m.updatePhoto(photo);
+		}
+		else return false;
+	}
+	
+	@GET
+	@Path("/getunapproved")
+	@Produces("application/json")
+	public ArrayList<Photo> getUnapproved()
+	{
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		
+		try{
+			photos = new PhotoManager().getUnapproved();
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return photos;
+	}
 	
 }
