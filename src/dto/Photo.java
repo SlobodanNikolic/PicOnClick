@@ -19,8 +19,14 @@ public class Photo extends BaseObject{
 	protected String path;
 	protected boolean approved;
 	protected String tags;
+	protected int timesRated;
 	
-	
+	public int getTimesRated() {
+		return timesRated;
+	}
+	public void setTimesRated(int timesRated) {
+		this.timesRated = timesRated;
+	}
 	public boolean isApproved() {
 		return approved;
 	}
@@ -112,7 +118,7 @@ public class Photo extends BaseObject{
 	
 	
 	public Photo(int id, Date date, int numOfSales, int priceHD, int priceFullHD, int price4k, int res, int rating,
-			int ownerId, String name, String description, String place, String path, boolean approved, String tags) {
+			int ownerId, String name, String description, String place, String path, boolean approved, String tags, int timesRated) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -129,6 +135,7 @@ public class Photo extends BaseObject{
 		this.path = path;
 		this.approved = approved;
 		this.tags = tags;
+		this.timesRated = timesRated;
 	}
 	public String getTags() {
 		return tags;

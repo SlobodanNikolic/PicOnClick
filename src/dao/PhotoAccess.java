@@ -45,6 +45,7 @@ public class PhotoAccess
 				photoObj.setPath(rs.getString("path"));
 				photoObj.setApproved(rs.getBoolean("approved"));
 				photoObj.setTags(rs.getString("tags"));
+				photoObj.setTimesRated(rs.getInt("timesRated"));
 				photos.add(photoObj);
 			}
 			
@@ -59,8 +60,8 @@ public class PhotoAccess
 		
 		System.out.println(photo.getPath());
 		
-		PreparedStatement stmt = con.prepareStatement("INSERT INTO photos(date, numOfSales, priceHD, priceFullHD, price4K, res, description, rating, place, ownerId, name, path, approved, tags)"
-				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement stmt = con.prepareStatement("INSERT INTO photos(date, numOfSales, priceHD, priceFullHD, price4K, res, description, rating, place, ownerId, name, path, approved, tags, timesRated)"
+				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
 		stmt.setDate(1, photo.getDate());
 		stmt.setInt(2, photo.getNumOfSales());
@@ -76,6 +77,7 @@ public class PhotoAccess
 		stmt.setString(12, photo.getPath());
 		stmt.setBoolean(13, photo.isApproved());
 		stmt.setString(14, photo.getTags());
+		stmt.setInt(15, photo.getTimesRated());
 		System.out.println(stmt.toString());
 		
 		if(stmt.executeUpdate() > 0) {
@@ -156,6 +158,8 @@ public class PhotoAccess
 				photoObj.setPath(rs.getString("path"));
 				photoObj.setApproved(rs.getBoolean("approved"));
 				photoObj.setTags(rs.getString("tags"));
+				photoObj.setTimesRated(rs.getInt("timesRated"));
+
 				photos.add(photoObj);
 			}
 			

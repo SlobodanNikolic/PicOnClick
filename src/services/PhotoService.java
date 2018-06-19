@@ -219,7 +219,7 @@ public class PhotoService
 		java.sql.Date date = new java.sql.Date(d.getTime());
 		
 		System.out.println("PhotoService: " + path);
-		Photo photoObj = new Photo(0, date, 0, priceHD, priceFullHD, price4K, 2, 0, user.getId(), fileName, description, location, path, false, tags);
+		Photo photoObj = new Photo(0, date, 0, priceHD, priceFullHD, price4K, 2, 0, user.getId(), fileName, description, location, path, false, tags, 0);
 		System.out.println("Photo object: " + photoObj.getPath());
 		BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
 		addPhoto(photoAndUser);
