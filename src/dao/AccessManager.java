@@ -49,4 +49,20 @@ public class AccessManager
 		Access access = new Access();
 		return access.login(con, user);
 	}
+
+	public boolean opRequest(String name) throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.opRequest(con, name);
+	}
+
+	public boolean confirmOperator(String name) throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.confirmOperator(con, name);
+	}
 }

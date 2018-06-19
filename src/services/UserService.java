@@ -106,4 +106,34 @@ public class UserService
 		}
     	return value;
     }
+	
+	@GET
+	@Path("/user/request/operator/{name}")
+    @Produces("text/json")
+    public boolean opRequest(@PathParam("name") String name){
+		
+    	boolean value = false;
+		try {
+			value = new AccessManager().opRequest(name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
+	
+	@GET
+	@Path("/user/request/operator/{name}/confirm")
+    @Produces("text/json")
+    public boolean confirmOperator(@PathParam("name") String name){
+		
+    	boolean value = false;
+		try {
+			value = new AccessManager().confirmOperator(name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
 }

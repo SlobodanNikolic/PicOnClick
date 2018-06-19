@@ -202,4 +202,41 @@ public class Access
 		
 		return null;
 	}
+
+	public boolean opRequest(Connection con, String name) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		User foundUser = getUserByName(con, name);
+		
+		if(foundUser != null) {
+			PreparedStatement stmt = con.prepareStatement("UPDATE users SET opRequested = 1 WHERE name = ?");
+			stmt.setString(1, name);
+			
+			System.out.println(stmt.toString());
+			if(stmt.executeUpdate() > 0)
+				return true;
+			
+			else return false;
+		}
+		else return false;
+		
+	}
+
+	public boolean confirmOperator(Connection con, String name) throws SQLException {
+		// TODO Auto-generated method stub
+		User foundUser = getUserByName(con, name);
+		
+		if(foundUser != null) {
+			PreparedStatement stmt = con.prepareStatement("UPDATE users SET opRequested = 0, operator = 1 WHERE name = ?");
+			stmt.setString(1, name);
+			
+			System.out.println(stmt.toString());
+			if(stmt.executeUpdate() > 0)
+				return true;
+			
+			else return false;
+		}
+		else return false;
+		
+	}
 }
