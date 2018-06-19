@@ -34,6 +34,20 @@ public class PhotoManager
 		PhotoAccess access = new PhotoAccess();
 		return access.getPhotosByAuthor(con, name, pageNum);
 	}
+
+	public Photo getPhotoById(int id) throws Exception {
+		Database db = new Database();
+		Connection con = db.getConnection();
+		PhotoAccess access = new PhotoAccess();
+		return access.getPhotoById(con, id);		
+	}
+
+	public boolean updatePhoto(Photo photo) throws Exception {
+		Database db = new Database();
+		Connection con = db.getConnection();
+		PhotoAccess access = new PhotoAccess();
+		return access.updatePhoto(con, photo);
+	}
 	
 	
 }

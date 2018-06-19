@@ -48,7 +48,7 @@ public class PhotoService
 	@GET
 	@Path("/photo/{name}")
 	@Produces("application/json")
-	public String getPhotosByName(@PathParam("name") String name)
+	public ArrayList<Photo> getPhotosByName(@PathParam("name") String name)
 	{
 		ArrayList<Photo> photos = new ArrayList<Photo>();
 		Photo photo = new Photo();
@@ -56,15 +56,32 @@ public class PhotoService
 		
 		try{
 			photos = new PhotoManager().getPhotosByName(name);
-			Gson gson = new Gson();
-			photoString = gson.toJson(photos);
+			
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 		
-		return photoString;
+		return photos;
 	}
 	
+	
+	@GET
+	@Path("/photo/id/{id}")
+	@Produces("application/json")
+	public Photo getPhotoById(@PathParam("id") int id)
+	{
+		Photo photo = new Photo();
+		String photoString = "";
+		
+		try{
+			photo = new PhotoManager().getPhotoById(id);
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return photo;
+	}
 	
 	@GET
 	@Path("/photo/author/{id}/{pageNum}")
@@ -263,6 +280,22 @@ public class PhotoService
 		fop.flush();
 		fop.close();
 
+	}
+	
+	@GET
+	@Path("/photo/rate/{id}/{rating}")
+	@Produces("application/json")
+	public boolean ratePhoto(@PathParam("id") int id, @PathParam("rating") int rating) throws Exception
+	{
+		PhotoManager m = new PhotoManager();
+		Photo photo = m.getPhotoById(id);
+		int currRating = photo.getRating();
+		int timesRated = photo.getTimesRated();
+		timesRated++;
+		int newRating = (currRating+rating)/timesRated;
+		photo.setRating(newRating);
+		photo.setTimesRated(timesRated);
+		return m.updatePhoto(photo);
 	}
 	
 	

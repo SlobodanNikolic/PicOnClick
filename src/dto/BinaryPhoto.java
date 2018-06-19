@@ -20,7 +20,14 @@ public class BinaryPhoto extends BaseObject{
 	protected boolean approved;
 	protected String tags;
 	protected String bin;
+	protected int timesRated;
 	
+	public int getTimesRated() {
+		return timesRated;
+	}
+	public void setTimesRated(int timesRated) {
+		this.timesRated = timesRated;
+	}
 	public String getBin() {
 		return bin;
 	}
@@ -134,6 +141,7 @@ public class BinaryPhoto extends BaseObject{
 		this.path = photo.path;
 		this.approved = photo.approved;
 		this.tags = photo.tags;
+		this.timesRated = photo.timesRated;
 		this.bin = bin;
 	}
 	

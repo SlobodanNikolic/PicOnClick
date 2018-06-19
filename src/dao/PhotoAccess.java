@@ -176,5 +176,61 @@ public class PhotoAccess
 		
 	}
 
+	public Photo getPhotoById(Connection con, int id) throws SQLException {
+		PreparedStatement stmt = con.prepareStatement("SELECT * FROM photos WHERE id = ?");
+		stmt.setInt(1, id);
+		System.out.println(stmt.toString());
+		ResultSet rs = stmt.executeQuery();
+		System.out.println(rs.toString());
+
+		try{
+			while(rs.next()){
+				System.out.println("Photo found");
+
+				Photo photoObj = new Photo();
+				photoObj.setId(rs.getInt("id"));
+				photoObj.setNumOfSales(rs.getInt("numOfSales"));
+				photoObj.setPriceHD(rs.getInt("priceHD"));
+				photoObj.setPriceFullHD(rs.getInt("priceFullHD"));
+				photoObj.setPrice4K(rs.getInt("price4K"));
+				photoObj.setRes(rs.getInt("res"));
+				photoObj.setDescription(rs.getString("description"));
+				photoObj.setRating(rs.getInt("rating"));
+				photoObj.setPlace(rs.getString("place"));
+				photoObj.setDate(rs.getDate("date"));
+				photoObj.setOwnerId(rs.getInt("ownerId"));
+				photoObj.setName(rs.getString("name"));
+				photoObj.setPath(rs.getString("path"));
+				photoObj.setApproved(rs.getBoolean("approved"));
+				photoObj.setTags(rs.getString("tags"));
+				photoObj.setTimesRated(rs.getInt("timesRated"));
+				
+				return photoObj;
+			}
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return null;	
+	}
+
+	public boolean updatePhoto(Connection con, Photo photo) throws SQLException {
+		
+		PreparedStatement stmt = con.prepareStatement("UPDATE photos SET numOfSales = ?, rating = ?, approved = ?, timesRated = ? WHERE id = ?");
+		stmt.setInt(1, photo.getNumOfSales());
+		stmt.setInt(2, photo.getRating());
+		stmt.setBoolean(3, photo.isApproved());
+		stmt.setInt(4, photo.getTimesRated());
+		stmt.setInt(5, photo.getId());
+		
+		System.out.println(stmt.toString());
+		
+		if(stmt.executeUpdate() > 0)
+			return true;
+		else return false;
+
+	}
+
 	
 }
