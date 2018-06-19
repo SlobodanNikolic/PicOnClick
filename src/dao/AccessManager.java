@@ -65,4 +65,55 @@ public class AccessManager
 		Access access = new Access();
 		return access.confirmOperator(con, name);
 	}
+
+	public User changePass(User user) throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.changePass(con, user);
+	}
+
+	public ArrayList<User> getPending() throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.getPending(con);
+	}
+
+	public boolean block(String name) throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.block(con, name);
+	}
+
+	public boolean opRemove(String name) throws Exception {
+		
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.opRemove(con, name);
+	}
+
+	public User addCard(User user) throws Exception {
+		// TODO Auto-generated method stub
+		
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.addCard(con, user);
+	}
+
+	public User getUserById(int name) throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.getUserById(con, name);
+		
+	}
 }

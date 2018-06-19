@@ -26,6 +26,14 @@ public class PhotoManager
 		PhotoAccess access = new PhotoAccess();
 		return access.addPhoto(con, photo, user);
 	}
+
+	public ArrayList<Photo> getPhotosByAuthor(int name, int pageNum) throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		PhotoAccess access = new PhotoAccess();
+		return access.getPhotosByAuthor(con, name, pageNum);
+	}
 	
 	
 }

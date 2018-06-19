@@ -1,14 +1,18 @@
 package services;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -29,8 +33,11 @@ import dao.Access;
 import dao.AccessManager;
 import dao.PhotoManager;
 import dto.BaseObject;
+import dto.BinaryPhoto;
 import dto.Photo;
 import dto.User;
+import javafx.util.Pair;
+import sun.misc.BASE64Encoder;
  
 @Path("/photoService")
 public class PhotoService
@@ -59,12 +66,95 @@ public class PhotoService
 	}
 	
 	
+	@GET
+	@Path("/photo/author/{id}/{pageNum}")
+	@Produces("application/json")
+	public ArrayList<BinaryPhoto> getPhotosByAuthor(@PathParam("id") int name, @PathParam("pageNum") int pageNum)
+	{
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		Photo photo = new Photo();
+		String photoString = "";
+		Map<String, Object> mapa = new HashMap<String, Object>();
+		ArrayList<BinaryPhoto> binaryPhotos = new ArrayList<BinaryPhoto>();
+		
+		try{
+			photos = new PhotoManager().getPhotosByAuthor(name, pageNum);
+//			Gson gson = new Gson();
+//			photoString = gson.toJson(photos);
+			for(int i = 0; i < photos.size(); i++) {
+//				images.add(getImageAsString(photos.get(i)));
+				BinaryPhoto bp = new BinaryPhoto(photos.get(i), getImageAsString(photos.get(i)));
+//				mapa.put(getImageAsString(photos.get(i)), photos.get(i));
+				binaryPhotos.add(bp);
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return binaryPhotos;
+	}
+	
+	public String getImageAsString(Photo photo) {
+		int width;    //width of the image
+	    int height;   //height of the image
+	    String photoName = photo.getName();
+	    int indexOfDot = photoName.lastIndexOf('.');
+	    String type = photoName.substring(indexOfDot+1, photoName.length());
+	    		
+	    if(photo.getRes() == 0) {
+	    	width = 1280;
+	    	height = 720;
+	    }
+	    else if(photo.getRes() == 1) {
+	    	width = 1920;
+	    	height = 1080;
+	    }
+	    else {
+	    	width = 3840;
+	    	height = 2160;
+	    }
+	    
+	    BufferedImage image = null;
+	    File f = null;
+
+	    //read image
+	    try{
+	      f = new File(photo.getPath()); //image file path
+	      image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	      image = ImageIO.read(f);
+	      System.out.println("Reading complete.");
+	    }catch(IOException e){
+	      System.out.println("Error: "+e);
+	    }
+	    
+	    String imageAsString = encodeToString(image, type);
+	    return imageAsString;
+	}
+	
+	 public static String encodeToString(BufferedImage image, String type) {
+	        String imageString = null;
+	        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+	        try {
+	            ImageIO.write(image, type, bos);
+	            byte[] imageBytes = bos.toByteArray();
+
+	            BASE64Encoder encoder = new BASE64Encoder();
+	            imageString = encoder.encode(imageBytes);
+
+	            bos.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        return imageString;
+	    }
+	
     public boolean addPhoto(BaseObject[] photoAndUser){
 		
 		Photo photo = (Photo) photoAndUser[0];
 		User user = (User) photoAndUser[1];
 		
-		System.out.println(photo.getName());
+		System.out.println(photo.getPath());
 		
     	boolean value = false;
 		try {
@@ -112,8 +202,9 @@ public class PhotoService
 			byte [] bytes = IOUtils.toByteArray(inputStream);
 				
 			//constructs upload file path
-			path = UPLOADED_FILE_PATH + "/" + user.getName() + "/" + fileName;
-				
+			path = UPLOADED_FILE_PATH + user.getName() + "/" + fileName;
+			System.out.println(path);
+
 			writeFile(bytes, path);
 				
 			System.out.println("Done");
@@ -127,7 +218,9 @@ public class PhotoService
 		Date d = new Date();
 		java.sql.Date date = new java.sql.Date(d.getTime());
 		
-		Photo photoObj = new Photo(0, date, 0, priceHD, priceFullHD, price4K, 2, 0, user.getId(), fileName, description, location, path, false);
+		System.out.println("PhotoService: " + path);
+		Photo photoObj = new Photo(0, date, 0, priceHD, priceFullHD, price4K, 2, 0, user.getId(), fileName, description, location, path, false, tags);
+		System.out.println("Photo object: " + photoObj.getPath());
 		BaseObject[] photoAndUser = new BaseObject[] {photoObj, user};
 		addPhoto(photoAndUser);
 		
@@ -154,6 +247,8 @@ public class PhotoService
 
 	//save to somewhere
 	private void writeFile(byte[] content, String filename) throws IOException {
+
+		System.out.println(filename);
 
 		File file = new File(filename);
 		

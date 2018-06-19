@@ -16,7 +16,7 @@ public class User extends BaseObject{
 	protected boolean operator;
 	protected boolean admin;
 	protected boolean pending;
-
+	protected String card;
 	
 	public boolean isOpRequested() {
 		return opRequested;
@@ -60,9 +60,11 @@ public class User extends BaseObject{
 
 	
 	
+	
+
 	public User(int id, String name, String password, String email, String state, int weekly, int daily,
 			boolean blocked, boolean seller, boolean activated, boolean opRequested, boolean operator, boolean admin,
-			boolean pending) {
+			boolean pending, String card) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -78,6 +80,15 @@ public class User extends BaseObject{
 		this.operator = operator;
 		this.admin = admin;
 		this.pending = pending;
+		this.card = card;
+	}
+
+	public String getCard() {
+		return card;
+	}
+
+	public void setCard(String card) {
+		this.card = card;
 	}
 
 	public User() {
@@ -93,6 +104,7 @@ public class User extends BaseObject{
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}

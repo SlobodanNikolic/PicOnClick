@@ -56,6 +56,25 @@ public class UserService
 		return userString;
 	}
 	
+	@GET
+	@Path("/user/id/{name}")
+	@Produces("application/json")
+	public User getUserById(@PathParam("name") int name)
+	{
+		User user = new User();
+		String userString = "";
+		
+		try{
+			user = new AccessManager().getUserById(name);
+			Gson gson = new Gson();
+			userString = gson.toJson(user);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
+	
 	@POST
 	@Path("/user")
     @Produces("text/json")
@@ -130,6 +149,89 @@ public class UserService
     	boolean value = false;
 		try {
 			value = new AccessManager().confirmOperator(name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
+	
+	
+	
+	@POST
+	@Path("/changepass")
+    @Produces("text/json")
+    @Consumes("application/json")
+    public User changePass(User user){
+		
+		System.out.println(user.getName());
+		
+    	User value = null;
+		try {
+			value = new AccessManager().changePass(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
+	
+	@GET
+	@Path("/users/pending")
+    @Produces("text/json")
+    public ArrayList<User> getPending(){
+		
+    	ArrayList<User> value = null;
+		try {
+			value = new AccessManager().getPending();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
+	
+	@GET
+	@Path("/user/block/{name}")
+    @Produces("text/json")
+    public boolean block(@PathParam("name") String name){
+		
+    	boolean value = false;
+		try {
+			value = new AccessManager().block(name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
+	
+	@GET
+	@Path("/user/request/operator/remove/{name}")
+    @Produces("text/json")
+    public boolean opRemove(@PathParam("name") String name){
+		
+    	boolean value = false;
+		try {
+			value = new AccessManager().opRemove(name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
+	
+	@POST
+	@Path("/user/{username}/card")
+    @Produces("text/json")
+    @Consumes("application/json")
+    public User addCard(User user){
+		
+		System.out.println(user.getName());
+		
+    	User value = null;
+		try {
+			value = new AccessManager().addCard(user);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

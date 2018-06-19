@@ -41,6 +41,7 @@ public class Access
 				userObj.setOperator(rs.getBoolean("operator"));
 				userObj.setAdmin(rs.getBoolean("admin"));
 				userObj.setPending(rs.getBoolean("pending"));
+				userObj.setCard(rs.getString("card"));
 				
 				userList.add(userObj);
 			}
@@ -79,7 +80,8 @@ public class Access
 				userObj.setOperator(rs.getBoolean("operator"));
 				userObj.setAdmin(rs.getBoolean("admin"));
 				userObj.setPending(rs.getBoolean("pending"));
-				
+				userObj.setCard(rs.getString("card"));
+
 				return userObj;
 			}
 		} catch (SQLException e){
@@ -96,8 +98,8 @@ public class Access
 		
 		if(foundUser == null) {
 			PreparedStatement stmt = con.prepareStatement("INSERT INTO users(name, password, email, state, weekly, daily, blocked, seller, activated, opRequested,"
-					+ "operator, admin, pending)"
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+					+ "operator, admin, pending, card)"
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, user.getName());
 			stmt.setString(2, user.getPassword());
 			stmt.setString(3, user.getEmail());
@@ -111,7 +113,7 @@ public class Access
 			stmt.setBoolean(11, user.isOperator());
 			stmt.setBoolean(12, user.isAdmin());
 			stmt.setBoolean(13, user.isPending());
-
+			stmt.setString(14, user.getCard());
 			
 			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() > 0) {
@@ -238,5 +240,148 @@ public class Access
 		}
 		else return false;
 		
+	}
+
+	public User changePass(Connection con, User user) throws SQLException {
+		// TODO Auto-generated method stub
+		User foundUser = getUserByName(con, user.getName());
+		
+		if(foundUser != null) {
+			PreparedStatement stmt = con.prepareStatement("UPDATE users SET password = ? WHERE name = ?");
+			stmt.setString(1, user.getPassword());
+			stmt.setString(2, user.getName());
+			
+			System.out.println(stmt.toString());
+			if(stmt.executeUpdate() > 0)
+				return user;
+			
+			else return null;
+		}
+		else return null;
+	}
+
+	public ArrayList<User> getPending(Connection con) throws SQLException {
+		// TODO Auto-generated method stub
+		ArrayList<User> userList = new ArrayList<User>();
+		PreparedStatement stmt = con.prepareStatement("SELECT * FROM users WHERE pending = 1");
+		ResultSet rs = stmt.executeQuery();
+		try{
+			while(rs.next()){
+				
+				User userObj = new User();
+				userObj.setId(rs.getInt("id"));
+				userObj.setBlocked(rs.getBoolean("blocked"));
+				userObj.setEmail(rs.getString("email"));
+				userObj.setDaily(rs.getInt("daily"));
+				userObj.setWeekly(rs.getInt("weekly"));
+				userObj.setName(rs.getString("name"));
+				userObj.setPassword(rs.getString("password"));
+				userObj.setSeller(rs.getBoolean("seller"));
+				userObj.setState(rs.getString("state"));
+				userObj.setActivated(rs.getBoolean("activated"));
+				userObj.setOpRequested(rs.getBoolean("opRequested"));
+				userObj.setOperator(rs.getBoolean("operator"));
+				userObj.setAdmin(rs.getBoolean("admin"));
+				userObj.setPending(rs.getBoolean("pending"));
+				userObj.setCard(rs.getString("card"));
+
+				userList.add(userObj);
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return userList;
+	}
+
+	public boolean block(Connection con, String name) throws SQLException {
+		// TODO Auto-generated method stub
+		User foundUser = getUserByName(con, name);
+		
+		if(foundUser != null) {
+			PreparedStatement stmt = con.prepareStatement("UPDATE users SET blocked = 1 WHERE name = ?");
+			stmt.setString(1, name);
+			
+			System.out.println(stmt.toString());
+			
+			if(stmt.executeUpdate() > 0)
+				return true;
+			
+			else return false;
+		}
+		else return false;
+	}
+
+	public boolean opRemove(Connection con, String name) throws SQLException {
+		// TODO Auto-generated method stub
+		User foundUser = getUserByName(con, name);
+		
+		if(foundUser != null) {
+			PreparedStatement stmt = con.prepareStatement("UPDATE users SET operator = 0 WHERE name = ?");
+			stmt.setString(1, name);
+			
+			System.out.println(stmt.toString());
+			
+			if(stmt.executeUpdate() > 0)
+				return true;
+			
+			else return false;
+		}
+		else return false;
+	}
+
+	public User addCard(Connection con, User user) throws SQLException {
+		// TODO Auto-generated method stub
+		User foundUser = getUserByName(con, user.getName());
+		
+		if(foundUser != null) {
+			PreparedStatement stmt = con.prepareStatement("UPDATE users SET card = ? WHERE name = ?");
+			stmt.setString(1, user.getCard());
+			stmt.setString(2, user.getName());
+			
+			System.out.println(stmt.toString());
+			
+			if(stmt.executeUpdate() > 0)
+				return user;
+			
+			else return null;
+		}
+		else return null;
+	}
+
+	public User getUserById(Connection con, int name) throws SQLException {
+		PreparedStatement stmt = con.prepareStatement("SELECT * FROM users WHERE id = ?");
+		stmt.setInt(1, name);
+		System.out.println(stmt.toString());
+		ResultSet rs = stmt.executeQuery();
+		System.out.println(rs.toString());
+
+		try{
+			while(rs.next()){
+				System.out.println("User found");
+
+				User userObj = new User();
+				userObj.setId(rs.getInt("id"));
+				userObj.setBlocked(rs.getBoolean("blocked"));
+				userObj.setEmail(rs.getString("email"));
+				userObj.setDaily(rs.getInt("daily"));
+				userObj.setWeekly(rs.getInt("weekly"));
+				userObj.setName(rs.getString("name"));
+				userObj.setPassword(rs.getString("password"));
+				userObj.setSeller(rs.getBoolean("seller"));
+				userObj.setState(rs.getString("state"));
+				userObj.setActivated(rs.getBoolean("activated"));
+				userObj.setOpRequested(rs.getBoolean("opRequested"));
+				userObj.setOperator(rs.getBoolean("operator"));
+				userObj.setAdmin(rs.getBoolean("admin"));
+				userObj.setPending(rs.getBoolean("pending"));
+				userObj.setCard(rs.getString("card"));
+
+				return userObj;
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

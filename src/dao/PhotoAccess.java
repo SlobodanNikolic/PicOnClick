@@ -41,8 +41,10 @@ public class PhotoAccess
 				photoObj.setPlace(rs.getString("place"));
 				photoObj.setDate(rs.getDate("date"));
 				photoObj.setOwnerId(rs.getInt("ownerId"));
+				photoObj.setName(rs.getString("name"));
 				photoObj.setPath(rs.getString("path"));
 				photoObj.setApproved(rs.getBoolean("approved"));
+				photoObj.setTags(rs.getString("tags"));
 				photos.add(photoObj);
 			}
 			
@@ -55,8 +57,10 @@ public class PhotoAccess
 	
 	public boolean addPhoto(Connection con, Photo photo, User user) throws SQLException{
 		
-		PreparedStatement stmt = con.prepareStatement("INSERT INTO photos(date, numOfSales, priceHD, priceFullHD, price4K, res, description, rating, place, ownerId, name, path, approved)"
-				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		System.out.println(photo.getPath());
+		
+		PreparedStatement stmt = con.prepareStatement("INSERT INTO photos(date, numOfSales, priceHD, priceFullHD, price4K, res, description, rating, place, ownerId, name, path, approved, tags)"
+				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
 		stmt.setDate(1, photo.getDate());
 		stmt.setInt(2, photo.getNumOfSales());
@@ -71,8 +75,9 @@ public class PhotoAccess
 		stmt.setString(11, photo.getName());
 		stmt.setString(12, photo.getPath());
 		stmt.setBoolean(13, photo.isApproved());
-		
+		stmt.setString(14, photo.getTags());
 		System.out.println(stmt.toString());
+		
 		if(stmt.executeUpdate() > 0) {
 			return true;
 		}
@@ -120,6 +125,51 @@ public class PhotoAccess
 			}
 	      
 	      
+	}
+
+	public ArrayList<Photo> getPhotosByAuthor(Connection con, int name, int pageNum) throws SQLException {
+		
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		PreparedStatement stmt = con.prepareStatement("SELECT * FROM photos WHERE ownerId = ?");
+		stmt.setInt(1, name);
+		System.out.println(stmt.toString());
+		ResultSet rs = stmt.executeQuery();
+		System.out.println(rs.toString());
+
+		try{
+			while(rs.next()){
+				System.out.println("Photo found");
+
+				Photo photoObj = new Photo();
+				photoObj.setId(rs.getInt("id"));
+				photoObj.setNumOfSales(rs.getInt("numOfSales"));
+				photoObj.setPriceHD(rs.getInt("priceHD"));
+				photoObj.setPriceFullHD(rs.getInt("priceFullHD"));
+				photoObj.setPrice4K(rs.getInt("price4K"));
+				photoObj.setRes(rs.getInt("res"));
+				photoObj.setDescription(rs.getString("description"));
+				photoObj.setRating(rs.getInt("rating"));
+				photoObj.setPlace(rs.getString("place"));
+				photoObj.setDate(rs.getDate("date"));
+				photoObj.setOwnerId(rs.getInt("ownerId"));
+				photoObj.setName(rs.getString("name"));
+				photoObj.setPath(rs.getString("path"));
+				photoObj.setApproved(rs.getBoolean("approved"));
+				photoObj.setTags(rs.getString("tags"));
+				photos.add(photoObj);
+			}
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		if(photos.size() >= pageNum*10) {
+			return new ArrayList<Photo>(photos.subList(pageNum*10-10, pageNum*10));
+		}
+		else {
+			return new ArrayList<Photo>(photos.subList(pageNum*10-10, photos.size()));
+		}
+		
 	}
 
 	

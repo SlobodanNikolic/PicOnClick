@@ -2,7 +2,7 @@ package dto;
 
 import java.sql.Date;
 
-public class Photo extends BaseObject{
+public class BinaryPhoto extends BaseObject{
 	
 	protected int id;
 	protected Date date;
@@ -19,8 +19,14 @@ public class Photo extends BaseObject{
 	protected String path;
 	protected boolean approved;
 	protected String tags;
+	protected String bin;
 	
-	
+	public String getBin() {
+		return bin;
+	}
+	public void setBin(String bin) {
+		this.bin = bin;
+	}
 	public boolean isApproved() {
 		return approved;
 	}
@@ -111,32 +117,33 @@ public class Photo extends BaseObject{
 	
 	
 	
-	public Photo(int id, Date date, int numOfSales, int priceHD, int priceFullHD, int price4k, int res, int rating,
-			int ownerId, String name, String description, String place, String path, boolean approved, String tags) {
+	public BinaryPhoto(Photo photo, String bin) {
 		super();
-		this.id = id;
-		this.date = date;
-		this.numOfSales = numOfSales;
-		this.priceHD = priceHD;
-		this.priceFullHD = priceFullHD;
-		price4K = price4k;
-		this.res = res;
-		this.rating = rating;
-		this.ownerId = ownerId;
-		this.name = name;
-		this.description = description;
-		this.place = place;
-		this.path = path;
-		this.approved = approved;
-		this.tags = tags;
+		this.id = photo.id;
+		this.date = photo.date;
+		this.numOfSales = photo.numOfSales;
+		this.priceHD = photo.priceHD;
+		this.priceFullHD = photo.priceFullHD;
+		price4K = photo.price4K;
+		this.res = photo.res;
+		this.rating = photo.rating;
+		this.ownerId = photo.ownerId;
+		this.name =	photo.name;
+		this.description = photo.description;
+		this.place = photo.place;
+		this.path = photo.path;
+		this.approved = photo.approved;
+		this.tags = photo.tags;
+		this.bin = bin;
 	}
+	
 	public String getTags() {
 		return tags;
 	}
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
-	public Photo() {
+	public BinaryPhoto() {
 		// TODO Auto-generated constructor stub
 	}
 	
