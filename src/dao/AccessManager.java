@@ -26,7 +26,7 @@ public class AccessManager
 		return user;
 	}
 	
-	public boolean addUser(User user) throws Exception {
+	public User addUser(User user) throws Exception {
 		
 		Database db = new Database();
 		Connection con = db.getConnection();

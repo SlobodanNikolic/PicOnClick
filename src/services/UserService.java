@@ -60,11 +60,11 @@ public class UserService
 	@Path("/user")
     @Produces("text/json")
     @Consumes("application/json")
-    public boolean addUser(User user){
+    public User addUser(User user){
 		
 		System.out.println(user.getName());
 		
-    	boolean value = false;
+    	User value = null;
 		try {
 			value = new AccessManager().addUser(user);
 		} catch (Exception e) {

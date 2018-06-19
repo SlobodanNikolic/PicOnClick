@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.ws.rs.core.Response;
+
+import com.mysql.jdbc.Statement;
+
 import javax.activation.*;
  
 import dto.User;
@@ -77,13 +81,14 @@ public class Access
 		return null;
 	}
 	
-	public boolean addUser(Connection con, User user) throws SQLException{
+	public User addUser(Connection con, User user) throws SQLException{
 		
+		ResultSet result = null;
 		User foundUser = getUserByName(con, user.getName());
 		
 		if(foundUser == null) {
 			PreparedStatement stmt = con.prepareStatement("INSERT INTO users(name, password, email, state, weekly, daily, blocked, seller, activated)"
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, user.getName());
 			stmt.setString(2, user.getPassword());
 			stmt.setString(3, user.getEmail());
@@ -94,14 +99,22 @@ public class Access
 			stmt.setBoolean(8, user.isSeller());
 			stmt.setBoolean(9, user.isActivated());
 			
+			
 			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() > 0) {
 				sendActivationEmail(user);
-				return true;
+				result = stmt.getGeneratedKeys();
+				int generatedKey = 0;
+				if (result.next()) {
+				    generatedKey = result.getInt(1);
+				    user.setId(generatedKey);
+				    return user;
+				}
+				return null;
 			}
-			else return false;
+			else return null;
 		}
-		else return false;
+		else return null;
 		
 	
 	}
