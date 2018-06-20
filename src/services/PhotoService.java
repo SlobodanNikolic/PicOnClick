@@ -186,12 +186,13 @@ public class PhotoService
 	
 	
 	@POST
-	@Path("/photo/user/{name}/upload/{priceHD}/{priceFullHD}/{price4K}/{description}/{location}/{tags}")
+	@Path("/photo/user/{name}/upload")
 	@Consumes("multipart/form-data")
 	public String uploadFile(MultipartFormDataInput input, @PathParam("name") String name, 
-			@PathParam("priceHD") int priceHD, @PathParam("priceFullHD") int priceFullHD,
-			@PathParam("price4K") int price4K, @PathParam("description") String description,
-			@PathParam("location") String location, @PathParam("tags") String tags) {
+			@HeaderParam("priceHD") int priceHD, @HeaderParam("priceFullHD") int priceFullHD,
+			@HeaderParam("price4K") int price4K, @HeaderParam("description") String description,
+			@HeaderParam("location") String location, @HeaderParam("tags") String tags) {
+
 		
 		String fileName = "";
 		String path ="";

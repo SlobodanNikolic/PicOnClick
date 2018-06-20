@@ -273,7 +273,7 @@ public class PhotoAccess
 
 	public boolean addTag(Connection con, String name) throws SQLException {
 		
-		PreparedStatement stmt = con.prepareStatement("INSERT INTO tags(name)"
+		PreparedStatement stmt = con.prepareStatement("INSERT INTO tags(tagName)"
 				+ "VALUES(?)");
 		
 		stmt.setString(1, name);
