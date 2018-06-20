@@ -284,5 +284,44 @@ public class PhotoAccess
 		else return false;
 	}
 
+	public ArrayList<Photo> getPhotosByTag(Connection con, String name) throws SQLException {
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		PreparedStatement stmt = con.prepareStatement("SELECT * FROM photos WHERE tags LIKE ?");
+		stmt.setString(1, "%" + name + "%");
+		System.out.println(stmt.toString());
+		ResultSet rs = stmt.executeQuery();
+		System.out.println(rs.toString());
+
+		try{
+			while(rs.next()){
+				System.out.println("Photo found");
+
+				Photo photoObj = new Photo();
+				photoObj.setId(rs.getInt("id"));
+				photoObj.setNumOfSales(rs.getInt("numOfSales"));
+				photoObj.setPriceHD(rs.getInt("priceHD"));
+				photoObj.setPriceFullHD(rs.getInt("priceFullHD"));
+				photoObj.setPrice4K(rs.getInt("price4K"));
+				photoObj.setRes(rs.getInt("res"));
+				photoObj.setDescription(rs.getString("description"));
+				photoObj.setRating(rs.getInt("rating"));
+				photoObj.setPlace(rs.getString("place"));
+				photoObj.setDate(rs.getDate("date"));
+				photoObj.setOwnerId(rs.getInt("ownerId"));
+				photoObj.setName(rs.getString("name"));
+				photoObj.setPath(rs.getString("path"));
+				photoObj.setApproved(rs.getBoolean("approved"));
+				photoObj.setTags(rs.getString("tags"));
+				photoObj.setTimesRated(rs.getInt("timesRated"));
+				photos.add(photoObj);
+			}
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return photos;
+	}
+
 	
 }

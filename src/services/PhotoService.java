@@ -349,4 +349,21 @@ public class PhotoService
 		return false;
 	}
 	
+	@GET
+	@Path("/photos/tag/{tag}")
+	@Produces("application/json")
+	public ArrayList<Photo> getPhotosByTag(@PathParam("tag") String name)
+	{
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		
+		try{
+			photos = new PhotoManager().getPhotosByTag(name);
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return photos;
+	}
+	
 }

@@ -66,7 +66,14 @@ public class PhotoManager
 		PhotoAccess access = new PhotoAccess();
 		return access.addTag(con, name);
 		
-		
+	}
+
+	public ArrayList<Photo> getPhotosByTag(String name) throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		PhotoAccess access = new PhotoAccess();
+		return access.getPhotosByTag(con, name);
 	}
 	
 	
