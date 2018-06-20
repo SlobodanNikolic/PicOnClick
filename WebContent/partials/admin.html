@@ -1,0 +1,78 @@
+
+
+
+<div class="container">
+
+	<h1 class="title">Administrator shit</h1>
+
+    <div class="conlumn">
+      <h2 style="margin-bottom: 20px;"><strong>Create operator</strong></h2>
+      <div class="box">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="Username" required ng-model="operator_username">
+        </div>
+      </div>
+       
+      <div class="field">
+        <div class="control">
+          <input class="input" type="password" placeholder="Password" required ng-model="operator_password">
+        </div>
+      </div>
+
+      <div class="field">  
+        <div class="control">
+          <input class="input" type="password" placeholder="Repeat Password" required ng-model="operator_repeat_password">
+        </div>
+      </div>
+      
+      <div class="field">  
+        <div class="control">
+          <input class="input" type="email" placeholder="Email" required ng-model="operator_email">
+        </div>
+      </div>
+      
+      <div class="field"> 
+        <div class="control">
+          <input class="input" type="text" placeholder="Country" required ng-model="operator_state">
+        </div>
+      </div>
+        <p class="help is-primary" style="margin: 15px 0px;" ng-bind="successMsg"> {{successMsg}}</p>
+        <p class="help is-danger" style="margin: 15px 0px;" ng-bind="error_msg"></p>
+        
+        <button class="button is-primary" ng-click="testCreateOperator()">Okej</button>
+        <button class="button is-info" ng-click="resetFields()">Reset</button>
+      </div>
+    </div>
+
+  
+	<div class="column"style="margin-top: 50px;">
+		<h2><strong>Delete operator</strong></h2>
+		
+		<div class="field">
+			<div class="select">
+				<select ng-model="selectedOperator">
+					<option ng-repeat="operator in operators"> {{ operator.name }} </option>
+				</select>
+			</div>
+			
+			<button class="button is-danger" ng-click="deleteOperator()">Delete</button>
+		</div>
+	</div>
+	
+	<div class="column"style="margin-top: 50px;">
+		<h2><strong>Add category</strong></h2>
+		
+		<div class="field">
+			<div class="control">
+	          <input class="input" type="text" placeholder="Category" ng-model="category_to_add">
+	          <p style="margin: 15px 0px;"class="help is-danger">{{ category_error }}</p>
+	          <p style="margin: 15px 0px;"class="help is-success">{{ category_success }}</p>
+	          <button class="button is-success" ng-click="addCategory()">Add</button>
+	        </div>
+		</div>
+	</div>
+
+  </div>
+
+</div>

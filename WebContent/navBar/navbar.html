@@ -1,0 +1,62 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#/">
+		Logo
+	</a>
+  </div>
+
+    <div class="navbar-start">
+		<a class="navbar-item" href="#/">
+		  Home
+		</a>
+
+		<a class="navbar-item" href="#/">
+		  About
+		</a>
+	</div>
+
+	<div class="navbar-end" ng-hide="isLoggedIn">
+		<a class="navbar-item" href="#/login">
+		  Login
+		</a>
+
+		<a class="navbar-item" href="#/register">
+		  Register
+		</a>
+	</div>
+
+	<div class="navbar-end" ng-show="isLoggedIn">
+	
+		<a class="navbar-item" href="#/myprofile">
+		  My Profile
+		</a>
+
+		<a class="navbar-item" href="#/upload" ng-if="isSeller">
+		  Upload
+		</a>
+		
+		<a class="navbar-item" href="#/logout" ng-click="$event.preventDefault(); logout()">
+		  Logout
+		</a>
+
+		<a class="navbar-item" href="#/operator" ng-show="isOperator()">
+		  Operator
+		</a>
+		
+		<a class="navbar-item" href="#/admin" ng-show="isAdmin()">
+		  Admin
+		</a>
+	</div>
+	
+		
+
+	
+	
+
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+</nav>

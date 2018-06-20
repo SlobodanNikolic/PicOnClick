@@ -1,0 +1,25 @@
+<div class="container">
+	<h1 class="title">Approving images for user: {{ user.name }}</h1>
+	<div class="columns">
+		<div class="column is-4" ng-repeat="image in imagesToApprove">
+			<img src="{{ image.src }}" alt="Image">
+			
+			<div class="control">
+
+				<label class="radio"></label><input style="margin-left: 20px; margin-right: 10px;" type="radio" ng-model="image.rating" value="1">1</label>
+				<label class="radio"></label><input style="margin-left: 20px; margin-right: 10px;" type="radio" ng-model="image.rating" value="2">2</label>
+				<label class="radio"></label><input style="margin-left: 20px; margin-right: 10px;" type="radio" ng-model="image.rating" value="3">3</label>
+				<label class="radio"></label><input style="margin-left: 20px; margin-right: 10px;" type="radio" ng-model="image.rating" value="4">4</label>
+				<label class="radio"></label><input style="margin-left: 20px; margin-right: 10px;" type="radio" ng-model="image.rating" value="5">5</label>
+			</div>
+		</div>
+	</div>
+	
+	<div class="field">
+		<p class="help is-danger">{{ errorMsg }}</p>
+		<div class="control">
+			<button class="button is-success" ng-click="approveUser()" ng-disabled="">Approve</button>
+		</div>
+	</div>
+	
+</div>

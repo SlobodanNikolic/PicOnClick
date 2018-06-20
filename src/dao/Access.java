@@ -199,7 +199,7 @@ public class Access
 		
 		if(foundUser.getPassword().compareTo(user.getPassword())==0 && foundUser.isActivated()) {
 			//login successful
-			return user;
+			return foundUser;
 		}
 		
 		return null;

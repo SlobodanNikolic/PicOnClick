@@ -1,0 +1,52 @@
+<section class="hero">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-8 is-offset-2">
+                <h3 class="title has-text-grey">Register</h3>
+                <p class="subtitle has-text-grey">Welcome to ShutterStock. Please Register.</p>
+
+                <p class="subtitle is-warning">{{errorMsg}}</p>
+                <div class="box">
+                    <form>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" type="text" placeholder="Username" autofocus="" ng-model="user.name">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" type="password" placeholder="Password" ng-model="user.password">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" type="password" placeholder="Repeat Password" ng-model="user.repeat_password">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" type="email" placeholder="Email" ng-model="user.email">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" type="password" placeholder="Country" ng-model="user.state">
+                            </div>
+                        </div>
+						
+						            <div class="field">
+                        	<button class="button is-success is-register is-large is-fullwidth" ng-click="register()">Register</button>
+                        </div>
+                        <div class="field">
+                        	<button class="button is-warning is-register is-large is-fullwidth" ng-click="resetFields()">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

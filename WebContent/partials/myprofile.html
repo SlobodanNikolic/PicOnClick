@@ -1,0 +1,34 @@
+<div class="container">
+<div class="content">
+  <h1>Profile Page: {{ user.name }}</h1>
+  <h3>User Pictures</h3>
+  <div class="columns is-multiline">
+  	<div class="column is-4" ng-repeat="picture in pictures">
+    <img src="{{ picture.src }}">
+    <figcaption>
+      {{ picture.desc }} | rating: {{ picture.rating }}
+    </figcaption>
+    
+    <span class="tag is-link" ng-repeat="tag in getPictureTag(picture)"> {{ tag }}</span>
+    </div>
+  </figure>
+  
+  </div>
+  
+  <div class="columns">
+  	<h3>Comments</h3>
+  </div>
+  
+    <div class="comment-content" ng-repeat="comment in comments">
+    <div class="columns">
+      <article class="message">
+        <div class="message-body">
+          {{ comment.content }}
+        </div>
+      </article>
+	</div>
+    </div>
+  
+  </div>
+</div>
+</div>

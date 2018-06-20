@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="src/css/bulma.min.css">
+<title>ShutterStock</title>
+</head>
+<body>
+
+	<nav-bar></nav-bar>
+
+	<section class="section">
+    <div class="container">
+
+      <div ng-view></div>
+    </div>
+  </section>
+
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<script src="src/js/angular-route.js"></script>
+	<script src="src/js/jquery.min.js"></script>
+	<script src="navBar/navbar.js"></script>
+	<script src="src/app/main.js"></script>
+
+</body>
+</html>

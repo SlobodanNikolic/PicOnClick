@@ -1,0 +1,49 @@
+<iframe name="hiddenFrame" class="hide" style="position:absolute; top:-1px; left:-1px; width:1px; height:1px;"></iframe>
+
+<!-- ng-submit="upload($event)" -->
+<form ng-action="{{form_url}}" ng-submit="upload($event)" method="post" enctype="multipart/form-data"  id="form-upload" target="hiddenFrame">
+  <!-- <input type="file" id="uploading_file" name="uploadedFile"> -->
+
+  <input data-my-Directive type="file" name="uploadedFile">
+  
+  <p>
+    <label for="priceHD">Price HD</label>
+    <input type="text" name="priceHD" id="priceHD" ng-model="priceHD">
+  </p>
+
+  <p>
+    <label for="priceFullHD">Price Full HD</label>
+    <input type="text" name="priceFullHD" id="priceFullHD" ng-model="priceFullHD">
+  </p>
+
+  <p>
+    <label for="price4K">Price 4K</label>
+    <input type="text" name="price4K" id="price4K" ng-model="price4K">
+  </p>
+  
+  <p>
+    <label for="description">Description</label>
+    <input type="text" name="description" id="description" ng-model="description">
+  </p>
+  
+  <p>
+    <label for="location">Location</label>
+    <input type="text" name="location" id="location" ng-model="location">
+  </p>
+  
+  <p>
+    <label for="location">Tags(Add them with comma separate)</label>
+    <input type="text" name="tags" id="123231" ng-model="tags">
+  </p>
+  
+  <p class="help is-danger">{{ errorMsg }}</p>
+  
+  <p><input type="submit" value="UPLOAD"></p>
+ </form>
+
+<!--priceHD: 5 
+priceFullHD: 10
+price4K: 15
+description: "bla bla bla"
+location: "Somewhere"
+tags: "tag1, tag2, tag3, tag4" -->

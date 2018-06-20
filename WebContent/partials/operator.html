@@ -1,0 +1,68 @@
+<section class="hero" ng-if="shouldChange">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <h3 class="title has-text-grey">Change your password</h3>
+                <p class="subtitle has-text-grey">Please change your default password</p>
+                <div class="box">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-large" type="password" placeholder="Password" autofocus="" ng-model="cfg.password">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-large" type="password" placeholder="Repeat Password" ng-model="cfg.repeat_password">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                    	<div class="control">
+                    		<p class="help is-danger">{{ errorMsg }}</p>
+                    	</div>
+                    </div>
+                    <button class="button is-block is-info is-large is-fullwidth" ng-click="passChange()">Change!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div ng-if="!shouldChange">
+	<h1 class="has-text-primary title">Hello, operator {{ user.name }} </h1>
+	
+	<h2 class="subtitle has-text-info"><strong>Images to approve:</strong></h2>
+
+    <div class="container">
+    <div class="columns">
+        <div class="column is-4" ng-repeat="image in imagesToApprove">
+            <img src="{{ image.src }}" alt="Image">
+            
+            <div class="control">
+                <button class="button is-success" ng-click="approveImage(image)">Approve</button>
+                <button class="button is-danger" ng-click="declineImage(image)">Decline</button>
+            </div>
+        </div>
+    </div>
+    
+	</div>
+
+    <h2 class="subtitle has-text-info"><strong>Users to approve:</strong></h2>
+	
+	<div class="container">
+    
+        <div class="columns" ng-repeat="user in usersToApprove">         
+            <div class="column is-4">
+                <a class="button is-primary is-block is-fullwidth" href="#/approve/{{user.id}}"> {{user.name}} </a>
+            </div>
+        </div>
+    
+	</div>
+
+    <p>Slika</p>
+
+    <img ng-src="{{testImage}}"/>
+	
+	
+</div>
