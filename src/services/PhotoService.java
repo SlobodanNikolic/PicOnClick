@@ -186,13 +186,13 @@ public class PhotoService
 	
 	
 	@POST
-	@Path("/photo/user/{name}/upload")
+	@Path("/photo/user/{name}/upload/{priceHD}/{priceFullHD}/{price4K}/{description}/{location}/{tags}")
 	@Consumes("multipart/form-data")
 	public String uploadFile(MultipartFormDataInput input, @PathParam("name") String name, 
-			@HeaderParam("priceHD") int priceHD, @HeaderParam("priceFullHD") int priceFullHD,
-			@HeaderParam("price4K") int price4K, @HeaderParam("description") String description,
-			@HeaderParam("location") String location, @HeaderParam("tags") String tags) {
-
+			@PathParam("priceHD") int priceHD, @PathParam("priceFullHD") int priceFullHD,
+			@PathParam("price4K") int price4K, @PathParam("description") String description,
+			@PathParam("location") String location, @PathParam("tags") String tags) {
+		
 		String fileName = "";
 		String path ="";
 		User user = new User();
@@ -206,7 +206,8 @@ public class PhotoService
 		
 		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		List<InputPart> inputParts = uploadForm.get("uploadedFile");
-
+		
+		
 		for (InputPart inputPart : inputParts) {
 		 try {
 
@@ -344,7 +345,7 @@ public class PhotoService
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-		
+		return false;
 	}
 	
 }

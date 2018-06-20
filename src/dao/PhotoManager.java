@@ -64,7 +64,7 @@ public class PhotoManager
 		Database db = new Database();
 		Connection con = db.getConnection();
 		PhotoAccess access = new PhotoAccess();
-		return access.addTag(name);
+		return access.addTag(con, name);
 		
 		
 	}

@@ -271,5 +271,18 @@ public class PhotoAccess
 		return photos;
 	}
 
+	public boolean addTag(Connection con, String name) throws SQLException {
+		
+		PreparedStatement stmt = con.prepareStatement("INSERT INTO tags(name)"
+				+ "VALUES(?)");
+		
+		stmt.setString(1, name);
+		
+		if(stmt.executeUpdate() > 0) {
+			return true;
+		}
+		else return false;
+	}
+
 	
 }
