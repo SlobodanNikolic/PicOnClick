@@ -48,7 +48,7 @@ public class PhotoService
 	@GET
 	@Path("/photo/{name}")
 	@Produces("application/json")
-	public ArrayList<Photo> getPhotosByName(@PathParam("name") String name)
+	public ArrayList<BinaryPhoto> getPhotosByName(@PathParam("name") String name)
 	{
 		ArrayList<Photo> photos = new ArrayList<Photo>();
 		Photo photo = new Photo();
@@ -61,7 +61,19 @@ public class PhotoService
 			e.printStackTrace();
 		}
 		
-		return photos;
+		ArrayList<BinaryPhoto> binaryPhotos = new ArrayList<BinaryPhoto>();
+		
+		try{
+
+			for(int i = 0; i < photos.size(); i++) {
+				BinaryPhoto bp = new BinaryPhoto(photos.get(i), getImageAsString(photos.get(i)));
+				binaryPhotos.add(bp);
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return binaryPhotos;
 	}
 	
 	
@@ -320,7 +332,7 @@ public class PhotoService
 	@GET
 	@Path("/getunapproved")
 	@Produces("application/json")
-	public ArrayList<Photo> getUnapproved()
+	public ArrayList<BinaryPhoto> getUnapproved()
 	{
 		ArrayList<Photo> photos = new ArrayList<Photo>();
 		
@@ -331,7 +343,20 @@ public class PhotoService
 			e.printStackTrace();
 		}
 		
-		return photos;
+		ArrayList<BinaryPhoto> binaryPhotos = new ArrayList<BinaryPhoto>();
+		
+		try{
+
+			for(int i = 0; i < photos.size(); i++) {
+				BinaryPhoto bp = new BinaryPhoto(photos.get(i), getImageAsString(photos.get(i)));
+				binaryPhotos.add(bp);
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return binaryPhotos;
+		
 	}
 	
 	@GET
@@ -352,7 +377,7 @@ public class PhotoService
 	@GET
 	@Path("/photos/tag/{tag}")
 	@Produces("application/json")
-	public ArrayList<Photo> getPhotosByTag(@PathParam("tag") String name)
+	public ArrayList<BinaryPhoto> getPhotosByTag(@PathParam("tag") String name)
 	{
 		ArrayList<Photo> photos = new ArrayList<Photo>();
 		
@@ -363,7 +388,18 @@ public class PhotoService
 			e.printStackTrace();
 		}
 		
-		return photos;
+		ArrayList<BinaryPhoto> binaryPhotos = new ArrayList<BinaryPhoto>();
+		
+		try{
+			for(int i = 0; i < photos.size(); i++) {
+				BinaryPhoto bp = new BinaryPhoto(photos.get(i), getImageAsString(photos.get(i)));
+				binaryPhotos.add(bp);
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return binaryPhotos;
 	}
 	
 }
