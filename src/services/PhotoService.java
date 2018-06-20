@@ -332,4 +332,19 @@ public class PhotoService
 		return photos;
 	}
 	
+	@GET
+	@Path("/addtag/{tagname}")
+	@Produces("application/json")
+	public boolean addTag(@PathParam("tagname") String name)
+	{
+		
+		try{
+			return new PhotoManager().addTag(name);
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
 }

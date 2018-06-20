@@ -58,6 +58,16 @@ public class PhotoManager
 		return access.getUnapproved(con);
 		
 	}
+
+	public boolean addTag(String name) throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		PhotoAccess access = new PhotoAccess();
+		return access.addTag(name);
+		
+		
+	}
 	
 	
 }
