@@ -75,6 +75,13 @@ public class PhotoManager
 		PhotoAccess access = new PhotoAccess();
 		return access.getPhotosByTag(con, name);
 	}
+
+	public Photo buyPhotoById(int id, String name) throws Exception {
+		Database db = new Database();
+		Connection con = db.getConnection();
+		PhotoAccess access = new PhotoAccess();
+		return access.buyPhotoById(con, id, name);
+	}
 	
 	
 }

@@ -402,4 +402,22 @@ public class PhotoService
 		return binaryPhotos;
 	}
 	
+	@GET
+	@Path("/photo/buy/id/{id}/username/{name}")
+	@Produces("application/json")
+	public Photo buyPhotoById(@PathParam("id") int id, @PathParam("name") String name)
+	{
+		Photo photo = new Photo();
+		String photoString = "";
+		
+		try{
+			photo = new PhotoManager().buyPhotoById(id, name);
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return photo;
+	}
+	
 }

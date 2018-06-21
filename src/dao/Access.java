@@ -384,4 +384,39 @@ public class Access
 		
 		return null;
 	}
+
+	public boolean setPending(Connection con, String name) throws SQLException {
+		// TODO Auto-generated method stub
+		User foundUser = getUserByName(con, name);
+		
+		if(foundUser != null) {
+			PreparedStatement stmt = con.prepareStatement("UPDATE users SET pending = 1 WHERE name = ?");
+			stmt.setString(1, name);
+			
+			System.out.println(stmt.toString());
+			
+			if(stmt.executeUpdate() > 0)
+				return true;
+			
+			else return false;
+		}
+		else return false;
+	}
+
+	public boolean setSeller(Connection con, String name) throws SQLException {
+		User foundUser = getUserByName(con, name);
+		
+		if(foundUser != null) {
+			PreparedStatement stmt = con.prepareStatement("UPDATE users SET seller = 1, pending = 0 WHERE name = ?");
+			stmt.setString(1, name);
+			
+			System.out.println(stmt.toString());
+			
+			if(stmt.executeUpdate() > 0)
+				return true;
+			
+			else return false;
+		}
+		else return false;
+	}
 }

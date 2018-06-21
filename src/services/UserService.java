@@ -238,4 +238,37 @@ public class UserService
 		}
     	return value;
     }
+	
+	@GET
+	@Path("/setpending/name/{name}")
+    @Produces("text/json")
+    public boolean setPending(@PathParam("name") String name){
+		
+    	boolean value = false;
+		try {
+			value = new AccessManager().setPending(name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
+	
+	@GET
+	@Path("/setseller/name/{name}")
+    @Produces("text/json")
+    public boolean setSeller(@PathParam("name") String name){
+		
+    	boolean value = false;
+		try {
+			value = new AccessManager().setSeller(name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return value;
+    }
+	
+	
+	
 }

@@ -1,17 +1,22 @@
 package dao;
  
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
- 
+import javax.imageio.ImageIO;
+
 import dto.Photo;
 import dto.User;
+import sun.misc.BASE64Encoder;
  
 public class PhotoAccess
 {
@@ -88,46 +93,6 @@ public class PhotoAccess
 	}
 	
 	
-	public void sendPhotoByEmail(Photo photo, User user) {
-			
-			final String photoname = "cobibitza@gmail.com";
-			final String password = "originalrap";
-
-			Properties props = new Properties();
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.starttls.enable", "true");
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.port", "587");
-
-			Session session = Session.getInstance(props,
-			  new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(photoname, password);
-				}
-			  });
-
-			try {
-
-				Message message = new MimeMessage(session);
-				message.setFrom(new InternetAddress("cobibitza@gmail.com"));
-				message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(user.getEmail()));
-		         message.setSubject("Pic On Click Activation");
-		
-		         // Now set the actual message
-		         message.setText("Hi " + photo.getName() + ", thanks for registering on Pic On Click! Just one more step, and you are all done."
-		         		+ "To complete the activation, please click this link: http://localhost:8080/PicOnClick/rest/photoService/photo/activate/" + photo.getName());
-
-				Transport.send(message);
-
-				System.out.println("Done");
-
-			} catch (MessagingException e) {
-				throw new RuntimeException(e);
-			}
-	      
-	      
-	}
 
 	public ArrayList<Photo> getPhotosByAuthor(Connection con, int name, int pageNum) throws SQLException {
 		
@@ -323,5 +288,99 @@ public class PhotoAccess
 		return photos;
 	}
 
+	
+	public Photo buyPhotoById(Connection con, int id, String name) throws SQLException {
+		
+		User user = new Access().getUserByName(con, name);
+		if(user == null)
+			return null;
+		
+		Photo wantedPhoto = getPhotoById(con, id);
+		
+		if(wantedPhoto != null) {
+			wantedPhoto.setNumOfSales(wantedPhoto.getNumOfSales()+1);
+			if(!updatePhoto(con, wantedPhoto))
+				return null;
+			
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO userPhotos(userId, photoId)"
+					+ "VALUES(?, ?)");
+			
+			stmt.setInt(2, wantedPhoto.getId());
+			stmt.setInt(1, user.getId());
+			
+			if(stmt.executeUpdate() <= 0) {
+				return null;
+			}
+			
+			
+		}
+		
+		sendPhotoByEmail(user, wantedPhoto);
+		
+		return wantedPhoto;
+		
+	}
+
+	
+	public void sendPhotoByEmail(User user, Photo photo) {
+		
+		final String username = "cobibitza@gmail.com";
+		final String password = "originalrap";
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
+
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("cobibitza@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(user.getEmail()));
+	         message.setSubject("PicOnClick - Your photo is here");
+	
+	         //Pravimo multipart
+	         MimeMultipart content = new MimeMultipart();
+	         MimeBodyPart mainPart = new MimeBodyPart();
+	         
+	         mainPart.setText("Hello there! Here is your photo.");
+	         content.addBodyPart(mainPart);
+	         
+	         //Dodajemo sliku
+	         MimeBodyPart imagePart = new MimeBodyPart();
+
+	         
+	        try {
+				imagePart.attachFile(photo.getPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	         content.addBodyPart(imagePart);        
+	         message.setContent(content);
+	         // Now set the actual message
+	         
+			Transport.send(message);
+
+			System.out.println("Done");
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+      
+      
+	}
+	
+	
 	
 }

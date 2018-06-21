@@ -3,6 +3,7 @@ package dao;
 import java.util.ArrayList;
 import dto.User;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class AccessManager
 {
@@ -115,5 +116,20 @@ public class AccessManager
 		Access access = new Access();
 		return access.getUserById(con, name);
 		
+	}
+
+	public boolean setPending(String name) throws Exception {
+		// TODO Auto-generated method stub
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.setPending(con, name);
+	}
+
+	public boolean setSeller(String name) throws Exception {
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		return access.setSeller(con, name);
 	}
 }
