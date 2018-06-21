@@ -294,8 +294,12 @@ public class PhotoAccess
 		User user = new Access().getUserByName(con, name);
 		if(user == null)
 			return null;
-		
+				
 		Photo wantedPhoto = getPhotoById(con, id);
+		
+		User owner =  new Access().getUserById(con, wantedPhoto.getOwnerId());
+		if(owner == null)
+			return null;
 		
 		if(wantedPhoto != null) {
 			wantedPhoto.setNumOfSales(wantedPhoto.getNumOfSales()+1);
@@ -316,6 +320,7 @@ public class PhotoAccess
 		}
 		
 		sendPhotoByEmail(user, wantedPhoto);
+		notifyPhotoOwner(owner, wantedPhoto);
 		
 		return wantedPhoto;
 		
@@ -381,6 +386,46 @@ public class PhotoAccess
       
 	}
 	
+	public void notifyPhotoOwner(User owner, Photo photo) {
+			
+			final String username = "cobibitza@gmail.com";
+			final String password = "originalrap";
+
+			Properties props = new Properties();
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+
+			Session session = Session.getInstance(props,
+			  new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(username, password);
+				}
+			  });
+
+			try {
+
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress("cobibitza@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(owner.getEmail()));
+		         message.setSubject("Pic On Click Activation");
+		
+		         // Now set the actual message
+		         message.setText("Hi " + owner.getName() + ", you just sold a photo! Good for you!"
+		         		+ "\n Photo name: " + photo.getName());
+
+				Transport.send(message);
+
+				System.out.println("Done");
+
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+	      
+	      
+	}
 	
 	
 }
