@@ -80,19 +80,21 @@ public class PhotoService
 	@GET
 	@Path("/photo/id/{id}")
 	@Produces("application/json")
-	public Photo getPhotoById(@PathParam("id") int id)
+	public BinaryPhoto getPhotoById(@PathParam("id") int id)
 	{
+		
 		Photo photo = new Photo();
 		String photoString = "";
-		
+		BinaryPhoto bp = null;
 		try{
 			photo = new PhotoManager().getPhotoById(id);
-			
+			bp = new BinaryPhoto(photo, getImageAsString(photo));
+
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 		
-		return photo;
+		return bp;
 	}
 	
 	@GET

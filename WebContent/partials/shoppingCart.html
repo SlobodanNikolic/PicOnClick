@@ -1,0 +1,39 @@
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Shopping Cart!
+      </h1>
+      <h2 class="subtitle">
+      	User: {{user.name}}
+      </h2>
+      
+    </div>
+  </div>
+</section>
+
+<div class="container" ng-show="hasCard == false">
+
+	<h1 class="title">You don't have a credit card, please fill it out before shopping!</h1>
+	<div class="field">
+	  <label class="label">Credit card details</label>
+	  <div class="control">
+	    <input class="input" type="text" placeholder="Card info" ng-model="cardInfo">
+	  </div>
+	  <p class="help">Please enter your credit card details.</p>
+	  <p class="help is-danger">{{errorMsg}}</p>
+	  <p class="help is-success">{{successMsg}}</p>
+	  <button class="button is-info" ng-click="addCard()" ng-focus="deleteError()">Add card</button>
+	</div>
+</div>
+
+<div class="container" ng-show="hasCard == true">
+	<h1 class="title is-success">Your images: </h1>
+	<div class="image-wrapper" ng-repeat="item in cartItems">
+		<div class="notification is-info">
+		  Name: {{item.name}} | Times sold: {{item.numOfSales}}
+		</div>
+	</div>
+	<p class="help is-success">{{successMsg}}</p>
+	<button class="button is-success" ng-click="buyImages()" ng-disabled="cartItems.length == 0">Buy em!</button>
+</div>

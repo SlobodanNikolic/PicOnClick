@@ -4,7 +4,9 @@
   <h3>User Pictures</h3>
   <div class="columns is-multiline">
   	<div class="column is-4" ng-repeat="picture in loadUserPicutres">
-    <img ng-src="data:image/JPEG;base64,{{ picture.bin }}" width="256" height="256">
+      <a href="/PicOnClick/#/picture/{{picture.id}}">
+        <img ng-src="data:image/JPEG;base64,{{ picture.bin }}" width="256" height="256">
+      </a>
     <figcaption>
       {{ picture.description }} | rating: {{ picture.rating }}
     </figcaption>

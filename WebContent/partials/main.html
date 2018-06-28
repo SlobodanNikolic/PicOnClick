@@ -1,2 +1,50 @@
-<h2>Hello</h2>
-<h3>{{ helloWorld }}</h3>
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Pic on Click
+      </h1>
+      <h2 class="subtitle">
+        Main Page
+      </h2>
+    </div>
+  </div>
+</section>
+
+<div class="container" style="margin: 30px 30px;">
+	<div class="columns" style="margin: 30px 30px;">
+		<div class="column field has-addons">
+		  <div class="control">
+		    <input class="input" type="text" placeholder="Search" ng-model="usernameQuery">
+		  </div>
+		  <div class="control">
+		    <button class="button is-info" ng-click="searchByUsername()">
+		      Search by Username
+		    </button>
+		  </div>
+		</div>
+		
+		<div class="column field has-addons">
+		  <div class="control">
+		    <input class="input" type="text" placeholder="Search" ng-model="tagQuery">
+		  </div>
+		  <div class="control">
+		    <button class="button is-info" ng-click="searchByTag()">
+		      Search by Tag
+		    </button>
+		  </div>
+		</div>
+	</div>
+	
+	<div class="wrapped columns is-multiline ">
+		<div class="box image-single column is-4" ng-repeat="picture in loadPictures">	
+			<a href="/PicOnClick/#/picture/{{picture.id}}">
+				<img ng-src="data:image/JPEG;base64,{{picture.bin}}" width="256", height="256" />
+			</a>
+			
+			<figcaption>
+		      {{ picture.description }} | rating: {{ picture.rating }}
+		    </figcaption>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,37 @@
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Pic on Click
+      </h1>
+      <h2 class="subtitle">
+      	Picture: {{picture.name}}
+      </h2>
+      
+    </div>
+  </div>
+</section>
+
+<div class="container">
+	<img ng-src="data:image/JPEG;base64,{{ picture.bin }}" alt="{{picture.name}}" />
+</div>
+
+<button class="button is-success" ng-click="addToCart()">Add to cart</button>
+<div class="container">
+	<p>Rating: {{picture.rating}}, Times sold: {{picture.numOfSales}}, Times Rated: {{picture.timesRated}}</p>
+	
+	<div>
+		<p>
+			<div class="control">
+    			<input id="ratingPic" class="input" type="text" placeholder="Rate from 1 to 5 please" ng-model="picRating">
+  			</div>
+  			
+  			
+		</p>
+		<p class="help is-danger">{{errorMsg}}</p>
+		<p class="help is-success">{{successMsg}}</p>
+		
+		<button class="button is-info" ng-click="rate()">Rate me</button>
+	</div>
+</div>
+
